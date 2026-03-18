@@ -15,6 +15,18 @@ It serves as a space to document my practice, reasoning, and progress in algorit
 
 These are my own personal solutions, created for study and practice purposes. Some solutions may be updated over time as I refine my understanding and improve my approaches.
 
+## Chapters
+
+- `dynamic_arrays/`
+
+## Conventions
+
+- One file per problem
+- Problem summaries written in my own words
+- Python implementations with complexity notes
+- Small test block under `if __name__ == "__main__":`
+-
+
 ## Author
 
 Bruno Rosa
