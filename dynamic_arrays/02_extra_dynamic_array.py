@@ -1,0 +1,116 @@
+
+"""
+Chapter: Dynamic Arrays
+Problem: Implement Dynamic Array
+
+Source:
+Beyond Cracking the Coding Interview
+
+Statement (summary):
+Implement a dynamic array data structure using a fixed-size underlying array.
+Support the following operations:
+
+- append(x): add element x to the end
+- get(i): return the element at index i
+- set(i, x): update the element at index i
+- size(): return the number of stored elements
+- pop_back(): remove and return the last element
+- pop(i):
+- contains(x)
+- insert (i,x)
+- remove (i)
+Extra methods
+- pop(i)
+- contains(i)
+- insert(i,x)
+- remove(x)
+"""
+class DynamicArray:
+    def __init__(self, initial_capacity=10):
+        if initial_capacity <= 0:
+            raise ValueError("initial_capacity must be positive")
+        self._capacity = initial_capacity
+        self._size = 0
+        self._data = [None] * self._capacity
+
+    def get(self,i):
+        if i < 0 or i>= self._size:
+            raise IndexError('index out of bounds')
+        return self._data[i]
+    def set(self , i, x):
+        if i < 0 or i>= self._size:
+            raise IndexError('index out of bounds')
+        self._data[i] = x
+    def size(self):
+        return self._size
+    def append(self,x):
+        if self._size == self._capacity:
+            self._resize()
+        self._data[self._size] = x
+        self._size += 1
+    def pop_back(self):
+        if self._size == 0:
+            raise IndexError("pop from empty array")
+        value = self._data[self._size - 1]
+        self._data[self._size - 1] = None
+        self._size -= 1
+        if self._size / self._capacity < 0.25 and self._capacity > 10:
+            self.resize(self._capacity//2)
+        return value
+    def _resize(self):
+        self._capacity *= 2
+        new_data = [None] * self._capacity
+        for i in range(self._size):
+            new_data[i] = self._data[i]
+        self._data = new_data
+            
+    def pop(self,i):
+        if self._size > i:
+            raise IndexError('index out of bounds')
+        element = self._data[i]
+        for index in range(i , self._size -1):
+            self._data[index] = self._data[index+1]
+        return element
+    def contains (self,x):
+        for element in self._data:
+            if(element == x):
+                return element
+    def insert(self, i, x):
+        if self._capacity < i:
+            raise IndexError('index out of bounds')
+        if self._size == self._capacity:
+            self._resize()
+        for index in range(self._size, i, - 1 ):
+            self._data[index + 1] == self._data[index]
+        self._data[i] = x
+
+    def remove(self, x):
+        for index in range(0,self._size):
+            if(self._data[index] == x):
+                self._data[index] = None
+                return index
+        return -1
+
+
+
+    def __repr__(self):
+        valid_items = [self._data[i] for i in range(self._size)]
+        return f"DynamicArray({valid_items}, size={self._size}, capacity={self._capacity})"
+
+if __name__ == "__main__":
+    arr = DynamicArray()
+
+    arr.append(10)
+    arr.append(20)
+    arr.append(30)
+
+    print(arr)                # DynamicArray([10, 20, 30], ...)
+    print(arr.get(1))         # 20
+
+    arr.set(1, 99)
+    print(arr.get(1))         # 99
+
+    print(arr.pop_back())     # 30
+    print(arr.size())         # 2
+    print(arr)
+    
